@@ -1,4 +1,386 @@
-```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SustainableDNA | EESG Intelligence Platform</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0B0B10;color:#E2E8F0;min-height:100vh}
+button{font-family:inherit}
+.header{background:#0D0D18;border-bottom:1px solid rgba(255,255,255,0.08)}
+.header-inner{max-width:1100px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:60px}
+.logo-wrap{display:flex;align-items:center;gap:12px}
+.logo-icon{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#2E7D52,#1A4D34);display:flex;align-items:center;justify-content:center;font-size:18px;border:1px solid rgba(46,125,82,0.4)}
+.logo-text{font-size:14px;font-weight:700;letter-spacing:0.5px;color:#F0F0F0}
+.logo-text span{color:#4CAF7D}
+.logo-sub{font-size:9px;color:#64748B;letter-spacing:1.5px;text-transform:uppercase}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{padding:6px 14px;font-size:11px;font-weight:500;border-radius:6px;border:none;background:transparent;color:#94A3B8;cursor:pointer;letter-spacing:0.3px;transition:all 0.2s;border-bottom:2px solid transparent}
+nav button.active{background:rgba(78,160,120,0.15);color:#4CAF7D;border-bottom-color:#4CAF7D}
+.strip{background:#10101C;border-bottom:1px solid rgba(255,255,255,0.05)}
+.strip-inner{max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.overall-box,.progress-box{min-width:100px;background:#141422;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px 16px;text-align:center}
+.overall-box{min-width:130px}
+.lbl{font-size:9px;color:#64748B;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.big-num{font-size:32px;font-weight:700;line-height:1}
+.sub-num{font-size:8px;color:#64748B;margin-top:2px}
+.pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;flex:1;min-width:400px}
+.pillar-card{background:#141422;border-radius:8px;padding:12px 14px;cursor:pointer;transition:all 0.2s}
+.pillar-card:hover{background:#1A1A2E}
+.main{max-width:1100px;margin:0 auto;padding:24px}
+.card{background:#141422;border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:20px;margin-bottom:12px}
+.card-hero{padding:28px 32px;border-left:4px solid #4CAF7D}
+.section-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.stat-box{background:#141422;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:12px 14px;text-align:center}
+.tag{font-size:9px;padding:2px 8px;background:#0D0D18;border-radius:4px;border:1px solid rgba(255,255,255,0.06);color:#94A3B8}
+.tnfd-badge{font-size:7px;color:#4CAF7D;padding:1px 5px;background:rgba(78,160,120,0.1);border-radius:3px;border:1px solid rgba(78,160,120,0.25);font-weight:700}
+.score-btn{width:24px;height:24px;border-radius:4px;border:1px solid rgba(255,255,255,0.08);background:#141422;color:#4A5568;font-size:10px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.accordion-head{background:#141422;padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background 0.2s}
+.accordion-head:hover{background:#1A1A2E}
+.accordion-body{background:#0D0D18;padding:16px 18px}
+.bar{height:3px;background:#1E1E30;border-radius:2px;overflow:hidden}
+.bar-fill{height:100%;border-radius:2px;transition:width 0.4s}
+.bar-lg{height:6px;background:#0D0D18;border-radius:3px;overflow:hidden;margin-bottom:6px}
+.info-box{padding:8px 12px;background:#0D0D18;border-radius:6px;font-size:10px;color:#94A3B8}
+.footer{margin-top:32px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.hidden{display:none}
+.tech-tag{padding:4px 10px;border-radius:4px;font-size:9px;background:#0D0D18;color:#64748B;border:1px solid rgba(255,255,255,0.06);font-weight:500;display:inline-block}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const D=[
+{pillar:"Economic",icon:"💰",color:"#D4AF37",border:"#D4AF3740",purpose:"Accountability",weight:25,
+tnfd_link:"TNFD Strategy — Nature-related financial risks, opportunities & economic dependencies",
+leap:"A3/A4 — Financial materiality determination & opportunity assessment",
+categories:[
+{name:"Financial Resilience & Stability",metrics:[
+{id:"EC01",name:"Capital Adequacy Ratio (CAR)",unit:"%",bm:"≥10.5%",tnfd:false,score:null},
+{id:"EC02",name:"Non-Performing Loan Ratio",unit:"%",bm:"<5%",tnfd:false,score:null},
+{id:"EC03",name:"Liquidity Coverage Ratio",unit:"%",bm:"≥100%",tnfd:false,score:null},
+{id:"EC04",name:"Nature-Risk Stress Test Coverage",unit:"Y/N",bm:"Yes",tnfd:true,score:null}
+]},
+{name:"Sustainable Finance Portfolio",metrics:[
+{id:"EC05",name:"Green/Sustainable Lending Ratio",unit:"%",bm:"≥15%",tnfd:true,score:null},
+{id:"EC06",name:"Nature-Positive Investment Allocation",unit:"% AUM",bm:"≥5%",tnfd:true,score:null},
+{id:"EC07",name:"Transition Finance Pipeline Value",unit:"Currency",bm:"Growing YoY",tnfd:true,score:null},
+{id:"EC08",name:"Green Bond Issuance",unit:"Currency",bm:"Active",tnfd:false,score:null}
+]},
+{name:"Economic Inclusion & Value",metrics:[
+{id:"EC09",name:"SME Lending Penetration",unit:"%",bm:"≥20%",tnfd:false,score:null},
+{id:"EC10",name:"Financial Inclusion Index",unit:"Score",bm:"≥70",tnfd:false,score:null},
+{id:"EC11",name:"Community Economic Multiplier",unit:"Ratio",bm:"≥1.5x",tnfd:false,score:null},
+{id:"EC12",name:"Tax Transparency Score",unit:"Score",bm:"≥80",tnfd:false,score:null}
+]}
+]},
+{pillar:"Environmental",icon:"🌍",color:"#2E7D52",border:"#2E7D5240",purpose:"Responsibility",weight:25,
+tnfd_link:"TNFD LEAP Engine — Locate, Evaluate, Assess, Prepare across all nature dimensions",
+leap:"L1-L4/E1-E4 — Location mapping, dependency & impact evaluation",
+categories:[
+{name:"Nature Dependencies & Impacts (LEAP)",metrics:[
+{id:"EN01",name:"Ecosystem Service Dependency Map",unit:"Complete",bm:"Full coverage",tnfd:true,score:null},
+{id:"EN02",name:"Priority Location Assessment (LEAP-L)",unit:"Count",bm:"All identified",tnfd:true,score:null},
+{id:"EN03",name:"Financed Biodiversity Impact Score",unit:"Score",bm:"Improving",tnfd:true,score:null},
+{id:"EN04",name:"Portfolio Nature-Risk Exposure",unit:"% AUM",bm:"Quantified",tnfd:true,score:null}
+]},
+{name:"Climate & Emissions",metrics:[
+{id:"EN05",name:"Scope 1 & 2 Emissions (Operations)",unit:"tCO2e",bm:"Reducing YoY",tnfd:false,score:null},
+{id:"EN06",name:"Scope 3 Cat 15 (Financed Emissions)",unit:"tCO2e",bm:"Measured",tnfd:true,score:null},
+{id:"EN07",name:"Climate Scenario Analysis (1.5/2/3°C)",unit:"Complete",bm:"All 3",tnfd:true,score:null},
+{id:"EN08",name:"Net-Zero Target Alignment",unit:"Y/N",bm:"SBTi validated",tnfd:false,score:null}
+]},
+{name:"Resource Stewardship",metrics:[
+{id:"EN09",name:"Water Risk in Lending Portfolio",unit:"% exposed",bm:"Quantified",tnfd:true,score:null},
+{id:"EN10",name:"Deforestation-Free Financing Policy",unit:"Y/N",bm:"Enforced",tnfd:true,score:null},
+{id:"EN11",name:"Renewable Energy in Operations",unit:"%",bm:"≥50%",tnfd:false,score:null},
+{id:"EN12",name:"Circular Economy Financing",unit:"Currency",bm:"Active",tnfd:false,score:null}
+]}
+]},
+{pillar:"Social",icon:"👥",color:"#1565C0",border:"#1565C040",purpose:"Integrity",weight:25,
+tnfd_link:"TNFD Pillar C — Stakeholder engagement, Indigenous Peoples, affected communities",
+leap:"E2/E4 — Impact on communities, social materiality assessment",
+categories:[
+{name:"Human Capital & Labour",metrics:[
+{id:"SO01",name:"Employee Wellbeing Index",unit:"Score",bm:"≥75",tnfd:false,score:null},
+{id:"SO02",name:"Gender Diversity (Board + Exec)",unit:"%",bm:"≥30%",tnfd:false,score:null},
+{id:"SO03",name:"Skills Development Investment",unit:"% payroll",bm:"≥3%",tnfd:false,score:null},
+{id:"SO04",name:"Living Wage Compliance",unit:"%",bm:"100%",tnfd:false,score:null}
+]},
+{name:"Community & Stakeholder Impact",metrics:[
+{id:"SO05",name:"Community Investment Ratio",unit:"% NPAT",bm:"≥1%",tnfd:false,score:null},
+{id:"SO06",name:"Stakeholder Engagement Score (TNFD)",unit:"Score",bm:"≥70",tnfd:true,score:null},
+{id:"SO07",name:"Indigenous Peoples Engagement",unit:"FPIC",bm:"Policy in place",tnfd:true,score:null},
+{id:"SO08",name:"Local Procurement Percentage",unit:"%",bm:"≥40%",tnfd:false,score:null}
+]},
+{name:"Consumer Protection & Financial Health",metrics:[
+{id:"SO09",name:"Customer Outcome Score",unit:"Score",bm:"≥80",tnfd:false,score:null},
+{id:"SO10",name:"Complaint Resolution Rate (30 days)",unit:"%",bm:"≥90%",tnfd:false,score:null},
+{id:"SO11",name:"Vulnerable Customer Framework",unit:"Y/N",bm:"Active",tnfd:false,score:null},
+{id:"SO12",name:"Financial Literacy Programs Reach",unit:"Count",bm:"Growing",tnfd:false,score:null}
+]}
+]},
+{pillar:"Governance",icon:"🏛️",color:"#6A1B9A",border:"#6A1B9A40",purpose:"Governance",weight:25,
+tnfd_link:"TNFD Pillar A — Board oversight of nature dependencies, impacts, risks & opportunities",
+leap:"P1-P4 — Strategy, targets, disclosure preparation, integrated reporting",
+categories:[
+{name:"Board Oversight & Nature Risk",metrics:[
+{id:"GO01",name:"Board Nature/Sustainability Committee",unit:"Y/N",bm:"Active",tnfd:true,score:null},
+{id:"GO02",name:"Board Competency in Nature Risk",unit:"Score",bm:"≥2 members",tnfd:true,score:null},
+{id:"GO03",name:"Nature Risk Reporting Frequency",unit:"Per year",bm:"≥Quarterly",tnfd:true,score:null},
+{id:"GO04",name:"Executive Remuneration ESG Link",unit:"%",bm:"≥15%",tnfd:false,score:null}
+]},
+{name:"Risk Management & Compliance",metrics:[
+{id:"GO05",name:"Nature Risk in ERM Framework",unit:"Y/N",bm:"Integrated",tnfd:true,score:null},
+{id:"GO06",name:"Three Lines Model for Nature Risk",unit:"Y/N",bm:"Operational",tnfd:true,score:null},
+{id:"GO07",name:"Multi-Jurisdictional Compliance",unit:"Score",bm:"≥85",tnfd:false,score:null},
+{id:"GO08",name:"AML/Sanctions Screening Coverage",unit:"%",bm:"100%",tnfd:false,score:null}
+]},
+{name:"Ethics, Transparency & Data",metrics:[
+{id:"GO09",name:"Whistleblower Mechanism Effectiveness",unit:"Score",bm:"≥70",tnfd:false,score:null},
+{id:"GO10",name:"Data Lineage & Audit Trail Coverage",unit:"%",bm:"100%",tnfd:false,score:null},
+{id:"GO11",name:"POPIA/GDPR Compliance Score",unit:"Score",bm:"≥90",tnfd:false,score:null},
+{id:"GO12",name:"ESG Data Assurance Level",unit:"Level",bm:"Reasonable",tnfd:false,score:null}
+]}
+]}
+];
 
-Paste the copied HTML content, then type:
-```
+const SCALES=[{v:1,c:"#C62828",l:"Initial"},{v:2,c:"#E65100",l:"Basic"},{v:3,c:"#F9A825",l:"Established"},{v:4,c:"#2E7D32",l:"Advanced"},{v:5,c:"#1565C0",l:"Leading"}];
+const LEAP=[
+{id:"L",label:"Locate",color:"#1565C0",icon:"📍",desc:"Where do operations and portfolios intersect with ecosystems?",comp:["L1: Business footprint mapping","L2: Nature interface identification","L3: Priority location assessment","L4: Sector & value chain screening"],eesg:"Environmental — Nature Dependencies & Resource Stewardship"},
+{id:"E",label:"Evaluate",color:"#2E7D52",icon:"🔬",desc:"What do we depend on from and do to nature?",comp:["E1: Ecosystem service dependencies","E2: Impact on biodiversity & ecosystems","E3: Dependency & impact measurement","E4: Impact materiality assessment"],eesg:"Environmental + Social — Impact evaluation & community assessment"},
+{id:"A",label:"Assess",color:"#D4AF37",icon:"⚖️",desc:"What does this mean financially?",comp:["A1: Risk identification","A2: Existing risk mitigation","A3: Additional risk management","A4: Financial materiality determination"],eesg:"Economic — Financial materiality, stress testing, risk quantification"},
+{id:"P",label:"Prepare",color:"#6A1B9A",icon:"📋",desc:"Strategy, targets, and disclosure",comp:["P1: Strategy & resource allocation","P2: Target setting & KPIs","P3: Disclosure preparation","P4: Integrated reporting package"],eesg:"Governance — Board oversight, targets, disclosure, integrated reporting"}
+];
+const FW=[
+{id:"tnfd",label:"TNFD",color:"#2E7D52",desc:"14 Disclosures + LEAP",role:"Assessment methodology & nature disclosure"},
+{id:"issb",label:"ISSB S1/S2",color:"#1565C0",desc:"Financial materiality",role:"Investor-facing mandatory standard"},
+{id:"gri",label:"GRI",color:"#6A1B9A",desc:"Impact materiality",role:"GRI 101 Biodiversity reporting"},
+{id:"csrd",label:"CSRD/ESRS",color:"#D4AF37",desc:"Double materiality",role:"EU regulatory mandate (ESRS E4)"},
+{id:"jse",label:"JSE",color:"#1565C0",desc:"King IV + Sustainability",role:"SA listing requirements"},
+{id:"cdp",label:"CDP",color:"#2E7D52",desc:"Disclosure channel",role:"2025 questionnaire mapped to TNFD"}
+];
+const AGENTS=[
+{name:"TNFD Nature Agent",icon:"🌿",desc:"LEAP assessment, nature dependencies & impacts",st:"new"},
+{name:"ESG Compliance Agent",icon:"📋",desc:"Multi-framework compliance checking",st:"live"},
+{name:"ISSB Climate Agent",icon:"🌡️",desc:"Climate risk, scenario analysis, ISSB S2",st:"live"},
+{name:"ISO Standards Agent",icon:"📐",desc:"ISO 14001/45001/50001/27001",st:"live"},
+{name:"Supplier Risk Agent",icon:"🔗",desc:"Supply chain ESG & nature screening",st:"live"},
+{name:"Data Enrichment Agent",icon:"📊",desc:"Data validation, gap filling, quality",st:"live"},
+{name:"Business Intelligence Agent",icon:"🧠",desc:"Trends, benchmarking, insights",st:"live"},
+{name:"Partnership Agent",icon:"🤝",desc:"Partnership evaluation & feasibility",st:"live"},
+{name:"GISTM Agent",icon:"⛏️",desc:"Tailings management (mining)",st:"live"}
+];
+
+let view="overview",xp=null,tnfdF=false;
+const sc=s=>{if(!s)return"#4A5568";const v=parseFloat(s);return v>=4?"#2E7D32":v>=3?"#D4AF37":v>=2?"#E65100":"#C62828"};
+const ml=s=>{if(!s)return"Not Assessed";const v=parseFloat(s);return v>=4.1?"Leading":v>=3.1?"Advanced":v>=2.1?"Developing":"Emerging"};
+const pScore=p=>{const a=p.categories.flatMap(c=>c.metrics).filter(m=>m.score!==null);return a.length===0?null:(a.reduce((s,m)=>s+m.score,0)/a.length).toFixed(1)};
+const cScore=c=>{const a=c.metrics.filter(m=>m.score!==null);return a.length===0?null:(a.reduce((s,m)=>s+m.score,0)/a.length).toFixed(1)};
+const oScore=()=>{const s=D.map(p=>pScore(p)).filter(s=>s!==null);return s.length===0?null:(s.reduce((a,v)=>a+parseFloat(v),0)/s.length).toFixed(1)};
+const tM=()=>D.reduce((s,p)=>s+p.categories.reduce((s2,c)=>s2+c.metrics.length,0),0);
+const sM=()=>D.reduce((s,p)=>s+p.categories.reduce((s2,c)=>s2+c.metrics.filter(m=>m.score!==null).length,0),0);
+const nM=()=>D.reduce((s,p)=>s+p.categories.reduce((s2,c)=>s2+c.metrics.filter(m=>m.tnfd).length,0),0);
+
+function setScore(pi,ci,mi,sv){D[pi].categories[ci].metrics[mi].score=sv;render();}
+function setView(v){view=v;if(v!=="scorecard")xp=null;render();}
+function toggleXp(i){xp=xp===i?null:i;render();}
+function toggleTnfd(){tnfdF=!tnfdF;render();}
+
+function render(){
+const ov=oScore();
+let h=`
+<div class="header"><div class="header-inner">
+<div class="logo-wrap"><div class="logo-icon">🧬</div><div><div class="logo-text">Sustainable<span>DNA</span></div><div class="logo-sub">EESG Intelligence Platform</div></div></div>
+<nav>${["overview:Overview","scorecard:Scorecard","leap:TNFD LEAP","frameworks:Frameworks","agents:AI Agents","summary:Report"].map(n=>{const[v,l]=n.split(":");return`<button class="${view===v?"active":""}" onclick="setView('${v}')">${l}</button>`}).join("")}</nav>
+</div></div>`;
+
+h+=`<div class="strip"><div class="strip-inner">
+<div class="overall-box"><div class="lbl">Overall EESG</div><div class="big-num" style="color:${sc(ov)}">${ov||"—"}</div><div class="sub-num">/ 5.0 · ${ml(ov)}</div></div>
+<div class="pillars-grid">${D.map((p,i)=>{const ps=pScore(p);return`<div class="pillar-card" style="border:1px solid ${p.border};border-left:3px solid ${p.color}" onclick="setView('scorecard');toggleXp(${i})">
+<div style="display:flex;justify-content:space-between"><div><div style="font-size:9px;color:#64748B;letter-spacing:1px;text-transform:uppercase">${p.pillar}</div><div style="font-size:9px;color:${p.color};margin-top:2px;font-weight:500">${p.purpose}</div></div><div style="font-size:20px;font-weight:700;color:${sc(ps)}">${ps||"—"}</div></div>
+<div class="bar" style="margin-top:8px"><div class="bar-fill" style="width:${ps?(parseFloat(ps)/5*100):0}%;background:${p.color}"></div></div>
+</div>`}).join("")}</div>
+<div class="progress-box"><div class="lbl">Scored</div><div style="font-size:26px;font-weight:700;color:#4CAF7D;line-height:1">${sM()}</div><div class="sub-num">of ${tM()} metrics</div></div>
+</div></div>`;
+
+h+=`<div class="main">`;
+
+if(view==="overview"){
+h+=`<div class="card card-hero"><div class="section-label" style="color:#4CAF7D">Governing Philosophy</div>
+<h2 style="font-size:22px;font-weight:700;color:#F0F0F0">PURPOSE Drives Behavior</h2>
+<p style="margin:8px 0 0;font-size:13px;color:#94A3B8">Accountability · Responsibility · Governance · Integrity</p>
+<p style="margin:10px 0 0;font-size:12px;color:#64748B;font-style:italic">Embedding sustainability into your organisation's DNA — Single Assessment, Six Frameworks</p></div>`;
+
+h+=`<div class="grid-2">${D.map((p,i)=>`<div class="card" style="border-top:3px solid ${p.color};cursor:pointer" onclick="setView('scorecard');toggleXp(${i})">
+<div style="display:flex;justify-content:space-between;margin-bottom:12px"><div><div style="font-size:15px;font-weight:700;color:${p.color}">${p.icon} ${p.pillar}</div><div style="font-size:10px;color:#64748B;margin-top:2px">${p.categories.length} categories · ${p.categories.reduce((s,c)=>s+c.metrics.length,0)} metrics · ${p.weight}% weight</div></div>
+<span style="font-size:10px;color:${p.color};background:${p.color}18;padding:3px 10px;border-radius:20px;border:1px solid ${p.color}30;font-weight:600">${p.purpose}</span></div>
+<div class="info-box" style="line-height:1.7"><div><span style="color:#4CAF7D;font-weight:600">TNFD:</span> ${p.tnfd_link}</div><div style="margin-top:3px"><span style="color:#D4AF37;font-weight:600">LEAP:</span> ${p.leap}</div></div>
+<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:10px">${p.categories.map(c=>`<span class="tag">${c.name.split("(")[0].trim().split(" ").slice(0,3).join(" ")}</span>`).join("")}</div>
+</div>`).join("")}</div>`;
+
+h+=`<div class="grid-6">${[
+{l:"EESG Domains",v:"12",c:"#1565C0"},{l:"Total Metrics",v:tM(),c:"#2E7D52"},{l:"TNFD Enhanced",v:nM(),c:"#4CAF7D"},
+{l:"Frameworks",v:"6",c:"#6A1B9A"},{l:"LEAP Phases",v:"4",c:"#D4AF37"},{l:"AI Agents",v:"9",c:"#C62828"}
+].map(s=>`<div class="stat-box"><div style="font-size:22px;font-weight:700;color:${s.c}">${s.v}</div><div style="font-size:9px;color:#64748B;margin-top:3px">${s.l}</div></div>`).join("")}</div>`;
+}
+
+if(view==="scorecard"){
+h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+<div style="font-size:13px;font-weight:600">Assessment Scorecard</div>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<button onclick="toggleTnfd()" style="padding:5px 14px;font-size:10px;border-radius:6px;border:1px solid ${tnfdF?"#4CAF7D":"rgba(255,255,255,0.1)"};background:${tnfdF?"rgba(78,160,120,0.1)":"transparent"};color:${tnfdF?"#4CAF7D":"#64748B"};cursor:pointer;font-weight:500">TNFD Only (${nM()})</button>
+<div style="font-size:9px;color:#4A5568">1 Initial · 2 Basic · 3 Established · 4 Advanced · 5 Leading</div></div></div>`;
+
+D.forEach((p,pi)=>{
+const ps=pScore(p);
+h+=`<div style="margin-bottom:8px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;overflow:hidden">
+<div class="accordion-head" style="border-left:3px solid ${p.color}" onclick="toggleXp(${pi})">
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<span style="font-size:16px">${p.icon}</span><span style="font-size:13px;font-weight:600">${p.pillar}</span>
+<span style="font-size:10px;color:${p.color};background:${p.color}15;padding:2px 8px;border-radius:4px">${p.purpose}</span>
+<span style="font-size:9px;color:#4A5568">${p.weight}% weight</span></div>
+<div style="display:flex;align-items:center;gap:14px"><span style="font-size:16px;font-weight:700;color:${sc(ps)}">${ps||"—"}<span style="font-size:10px;color:#4A5568">/5</span></span>
+<span style="color:#4A5568;font-size:10px;display:inline-block;transform:rotate(${xp===pi?180:0}deg);transition:transform 0.2s">▼</span></div></div>`;
+
+if(xp===pi){
+h+=`<div class="accordion-body">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+<div style="padding:8px 12px;background:#141422;border-radius:6px;font-size:10px;border-left:2px solid #4CAF7D"><span style="color:#4CAF7D;font-weight:600">TNFD: </span><span style="color:#94A3B8">${p.tnfd_link}</span></div>
+<div style="padding:8px 12px;background:#141422;border-radius:6px;font-size:10px;border-left:2px solid #D4AF37"><span style="color:#D4AF37;font-weight:600">LEAP: </span><span style="color:#94A3B8">${p.leap}</span></div></div>`;
+
+p.categories.forEach((cat,ci)=>{
+const fm=tnfdF?cat.metrics.filter(m=>m.tnfd):cat.metrics;
+if(fm.length===0)return;
+const cs=cScore(cat);
+h+=`<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);margin-bottom:6px">
+<span style="font-size:11px;font-weight:600;color:#C8D3DC">${cat.name}</span>
+<span style="font-size:11px;font-weight:700;color:${sc(cs)}">${cs||"—"}/5</span></div>`;
+
+fm.forEach((m,mi)=>{
+const aMi=cat.metrics.indexOf(m);
+h+=`<div style="display:grid;grid-template-columns:34px 1fr 60px 80px 130px;align-items:center;gap:6px;padding:6px 8px;background:${mi%2===0?"rgba(255,255,255,0.015)":"transparent"};border-radius:4px">
+<span style="font-size:8px;color:#4A5568;font-family:monospace;font-weight:600">${m.id}</span>
+<div style="display:flex;align-items:center;gap:6px"><span style="font-size:11px;color:#C8D3DC">${m.name}</span>${m.tnfd?'<span class="tnfd-badge">TNFD</span>':''}</div>
+<span style="font-size:9px;color:#4A5568">${m.unit}</span>
+<span style="font-size:9px;color:#4A5568">${m.bm}</span>
+<div style="display:flex;gap:3px">${SCALES.map(s=>`<button class="score-btn" style="${m.score===s.v?`border-color:${s.c};background:${s.c}22;color:${s.c}`:""}" onclick="setScore(${pi},${ci},${aMi},${s.v})">${s.v}</button>`).join("")}</div></div>`;
+});
+h+=`</div>`;
+});
+h+=`</div>`;
+}
+h+=`</div>`;
+});
+}
+
+if(view==="leap"){
+h+=`<div style="margin-bottom:20px"><div class="section-label" style="color:#4CAF7D">TNFD Assessment Methodology</div>
+<h2 style="font-size:20px;font-weight:700;color:#F0F0F0;margin:4px 0 6px">The LEAP Approach</h2>
+<p style="font-size:12px;color:#64748B">The engine powering every EESG assessment — Locate · Evaluate · Assess · Prepare</p></div>`;
+
+LEAP.forEach(ph=>{
+h+=`<div class="card" style="border-left:4px solid ${ph.color}">
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+<div style="width:44px;height:44px;border-radius:8px;background:${ph.color}15;display:flex;align-items:center;justify-content:center;font-size:20px;border:1px solid ${ph.color}30;flex-shrink:0">${ph.icon}</div>
+<div><div style="font-size:14px;font-weight:700;color:${ph.color}">${ph.id} — ${ph.label}</div><div style="font-size:11px;color:#94A3B8;margin-top:2px">${ph.desc}</div></div></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px;margin-bottom:10px">${ph.comp.map(c=>`<div class="info-box">${c}</div>`).join("")}</div>
+<div class="info-box" style="color:#64748B"><span style="color:${ph.color};font-weight:600">EESG Mapping → </span>${ph.eesg}</div></div>`;
+});
+
+h+=`<div class="card" style="border:1px solid rgba(78,160,120,0.2);text-align:center">
+<div style="font-size:13px;font-weight:700;color:#4CAF7D;margin-bottom:6px">LEAP → EESG → 6 Frameworks</div>
+<div style="font-size:11px;color:#94A3B8">One LEAP-driven assessment populates all four EESG pillars and auto-generates TNFD, ISSB, GRI, CSRD, JSE, CDP disclosures</div></div>`;
+}
+
+if(view==="frameworks"){
+h+=`<div style="margin-bottom:20px"><div class="section-label" style="color:#6A1B9A">Framework Convergence</div>
+<h2 style="font-size:20px;font-weight:700;color:#F0F0F0;margin:4px 0 6px">Single Assessment, Multiple Frameworks</h2>
+<p style="font-size:12px;color:#64748B">Aligned to global disclosure standards — one integrated process, six regulatory outputs</p></div>`;
+
+h+=`<div class="grid-3">${FW.map(f=>`<div class="card" style="border-top:3px solid ${f.color}">
+<div style="font-size:16px;font-weight:700;color:${f.color};margin-bottom:4px">${f.label}</div>
+<div style="font-size:10px;color:#C8D3DC;margin-bottom:8px">${f.desc}</div>
+<div style="font-size:10px;color:#64748B;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05)">${f.role}</div></div>`).join("")}</div>`;
+
+h+=`<div class="card" style="overflow-x:auto"><div style="font-size:12px;font-weight:600;margin-bottom:14px">EESG ↔ Framework Coverage Matrix</div>
+<table style="width:100%;border-collapse:collapse;font-size:10px"><thead><tr><th style="padding:8px 12px;text-align:left;color:#64748B;border-bottom:1px solid rgba(255,255,255,0.06)">Pillar</th>
+${FW.map(f=>`<th style="padding:8px 12px;text-align:center;color:${f.color};border-bottom:1px solid rgba(255,255,255,0.06);font-weight:700">${f.label}</th>`).join("")}</tr></thead>
+<tbody>${D.map(p=>`<tr><td style="padding:10px 12px;color:${p.color};font-weight:600;border-bottom:1px solid rgba(255,255,255,0.04)">${p.icon} ${p.pillar}</td>${FW.map(()=>`<td style="padding:10px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.04);color:#4CAF7D;font-size:12px">✓</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+
+if(view==="agents"){
+h+=`<div style="margin-bottom:20px"><div class="section-label" style="color:#C62828">AI-Powered Assessment Engine</div>
+<h2 style="font-size:20px;font-weight:700;color:#F0F0F0;margin:4px 0 6px">9 Specialised AI Agents</h2>
+<p style="font-size:12px;color:#64748B">Anthropic Claude · IBM Watsonx — working in concert</p></div>`;
+
+h+=`<div class="grid-3">${AGENTS.map(a=>`<div class="card" style="${a.st==="new"?"border:1px solid rgba(78,160,120,0.3)":""};position:relative">
+${a.st==="new"?'<span style="position:absolute;top:10px;right:10px;padding:2px 8px;border-radius:4px;font-size:8px;background:rgba(78,160,120,0.12);color:#4CAF7D;border:1px solid rgba(78,160,120,0.25);font-weight:700">NEW</span>':""}
+<div style="font-size:22px;margin-bottom:8px">${a.icon}</div>
+<div style="font-size:12px;font-weight:600;margin-bottom:4px">${a.name}</div>
+<div style="font-size:10px;color:#64748B;line-height:1.5">${a.desc}</div></div>`).join("")}</div>`;
+
+h+=`<div class="card"><div style="font-size:12px;font-weight:600;margin-bottom:14px">Assessment Workflow</div>
+<div class="grid-4">${[
+{s:"01",t:"Client Onboarding",d:"Sector, geography, materiality scoping",c:"#1565C0"},
+{s:"02",t:"EESG Scorecard",d:"Custom metrics across 4 pillars, 12 categories",c:"#2E7D52"},
+{s:"03",t:"LEAP Assessment",d:"Locate → Evaluate → Assess → Prepare",c:"#D4AF37"},
+{s:"04",t:"Framework Output",d:"TNFD · ISSB · GRI · CSRD · JSE · CDP",c:"#6A1B9A"}
+].map(s=>`<div style="background:#0D0D18;border-radius:6px;padding:14px;border-top:3px solid ${s.c}">
+<div style="font-size:20px;font-weight:800;color:${s.c}30;margin-bottom:4px">${s.s}</div>
+<div style="font-size:11px;font-weight:600;color:${s.c};margin-bottom:4px">${s.t}</div>
+<div style="font-size:10px;color:#64748B">${s.d}</div></div>`).join("")}</div></div>`;
+
+h+=`<div class="card"><div style="font-size:12px;font-weight:600;margin-bottom:10px">Infrastructure & Data Governance</div>
+<div style="font-size:10px;color:#94A3B8;margin-bottom:10px">Every data point carries full provenance — No Data Without Lineage.</div>
+<div style="display:flex;flex-wrap:wrap;gap:6px">${["Anthropic Claude AI","IBM Watsonx","AWS Lambda","Neon PostgreSQL","Railway","Vercel","DRATA SOC2","Cloudflare"].map(t=>`<span class="tech-tag">${t}</span>`).join("")}</div></div>`;
+}
+
+if(view==="summary"){
+h+=`<div class="card" style="padding:24px"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;flex-wrap:wrap;gap:12px">
+<div><div style="font-size:10px;letter-spacing:2px;color:#64748B;text-transform:uppercase;margin-bottom:4px">EESG Assessment Report</div>
+<h2 style="font-size:18px;font-weight:700;color:#F0F0F0">Consolidated Performance Summary</h2></div>
+<div style="text-align:right"><div style="font-size:36px;font-weight:800;color:${sc(ov)};line-height:1">${ov||"—"}<span style="font-size:14px;color:#4A5568">/5</span></div>
+<div style="font-size:11px;color:${sc(ov)};font-weight:600">${ml(ov)}</div></div></div>`;
+
+D.forEach(p=>{
+const ps=pScore(p);const pct=ps?(parseFloat(ps)/5*100):0;
+h+=`<div style="margin-bottom:18px"><div style="display:flex;justify-content:space-between;margin-bottom:6px">
+<div style="display:flex;align-items:center;gap:8px"><span style="color:${p.color};font-weight:600;font-size:12px">${p.icon} ${p.pillar}</span><span style="font-size:10px;color:#4A5568">(${p.purpose})</span></div>
+<span style="font-size:12px;color:${sc(ps)};font-weight:700">${ps||"—"}/5 · ${ml(ps)}</span></div>
+<div class="bar-lg"><div class="bar-fill" style="width:${pct}%;background:${p.color}"></div></div>
+<div style="display:flex;gap:5px;flex-wrap:wrap">${p.categories.map(c=>{const cs=cScore(c);return`<span class="tag">${c.name.split("(")[0].trim().substring(0,22)}: <span style="color:${sc(cs)};font-weight:700">${cs||"—"}</span></span>`}).join("")}</div></div>`;
+});
+h+=`</div>`;
+
+h+=`<div class="card" style="border:1px solid rgba(78,160,120,0.2)"><div style="font-size:12px;font-weight:600;color:#4CAF7D;margin-bottom:14px">🌿 TNFD Readiness Assessment</div>
+<div class="grid-4">${D.map(p=>{
+const tm=p.categories.flatMap(c=>c.metrics).filter(m=>m.tnfd);const s=tm.filter(m=>m.score!==null);
+const avg=s.length>0?(s.reduce((a,m)=>a+m.score,0)/s.length).toFixed(1):null;
+return`<div style="background:#0D0D18;border-radius:6px;padding:14px;border-top:2px solid ${p.color}">
+<div style="font-size:10px;color:${p.color};font-weight:600;margin-bottom:4px">${p.icon} ${p.pillar}</div>
+<div style="font-size:22px;font-weight:700;color:${sc(avg)}">${avg||"—"}<span style="font-size:10px;color:#4A5568">/5</span></div>
+<div style="font-size:9px;color:#4A5568;margin-top:3px">${s.length}/${tm.length} TNFD metrics scored</div></div>`}).join("")}</div></div>`;
+}
+
+h+=`<div class="footer"><div><div style="font-size:12px;font-weight:600;color:#F0F0F0">Sustainable<span style="color:#4CAF7D">DNA</span></div>
+<div style="font-size:9px;color:#4A5568;margin-top:2px">${tM()} Metrics · ${nM()} TNFD-Enhanced · 6 Frameworks · 9 AI Agents</div></div>
+<div style="font-size:9px;color:#2D3748;text-align:right"><div>Technology Partner: TIS Holdings Pty Ltd (2007/020605/07)</div><div>IntelliMat AI Engine</div></div></div>`;
+
+h+=`</div>`;
+document.getElementById("app").innerHTML=h;
+}
+render();
+</script>
+</body>
+</html>
+
+
+
+
+
